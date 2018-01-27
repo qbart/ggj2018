@@ -89,16 +89,20 @@ public class Prompt : MonoBehaviour
             char c = Input.inputString[0];
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
             {
-                string chr = c.ToString().ToUpper();
+                Debug.Log("char: " + c);
+                Word word = words[currentInvalid];
+                word.addChar(c);
+                text[currentInvalid].text = word.text;
 
-                //text[0].text = text[0].text + chr;
-                //for (int i = 1; i < 5; ++i)
-                //{
-                //    text[i].transform.position = text[i].transform.position + new Vector3(0.3f, 0, 0);
-
-                //}
-
-
+                for (int i = 1; i < size; ++i)
+                {
+                    int prev = nextIndex(i - 1);
+                    int next = nextIndex(i);
+                    if (obj[next].transform.position.x > obj[currentInvalid].transform.position.x)
+                    {
+                        obj[next].transform.position = obj[prev].transform.position + new Vector3(text[prev].textWidth + SPACE_SIZE, 0, 0);
+                    }
+                }
             }
         }
     }
@@ -197,11 +201,13 @@ public class Prompt : MonoBehaviour
                 text[firstIndex].text = word.text;
                 text[firstIndex].changeStyle(word.invalid);
                 words[firstIndex] = word;
+                words[firstIndex].width = text[firstIndex].textWidth;
                 wordsNum++;
             }
             else
             {
                 text[firstIndex].text = "";
+                words[firstIndex].invalid = false;
                 if (poolEmpty < poolSize)
                     poolEmpty++;
             }
@@ -227,6 +233,7 @@ public class Prompt : MonoBehaviour
             text[i].changeStyle(word.invalid);
             obj[i].transform.position = startPos;
             words[i] = word;
+            words[i].width = text[i].textWidth;
         }
 
         for (int i = 1; i < size; ++i)

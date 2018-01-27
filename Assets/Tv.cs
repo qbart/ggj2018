@@ -4,41 +4,35 @@ using UnityEngine;
 
 public class Tv : MonoBehaviour
 {
-    public static string LOREM = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida non eros sit amet, cursus eleifend ante. Donec a elit ac arcu finibus rhoncus eget id diam. Praesent lorem mauris, tempor sit amet venenatis at, mattis vel nisi. Duis vel pharetra nunc, vitae facilisis urna. Integer non aliquet erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget tellus ipsum. Aliquam id justo sed lacus gravida tristique. Integer blandit leo eget ipsum imperdiet varius. In tincidunt arcu mauris, nec lacinia augue faucibus ut.
-
-Maecenas nec dolor in arcu dictum lacinia id in enim. Maecenas venenatis augue vel bibendum eleifend. Nulla tempor neque quis arcu convallis, id ornare urna euismod. Nullam aliquet interdum aliquet. Aenean et convallis leo. Vivamus interdum lobortis nunc, vel fermentum turpis cursus eu. Morbi blandit faucibus nunc, id facilisis nisi semper a. Nulla nisi sem, rutrum in ultrices at, venenatis at purus. Donec commodo felis arcu, et accumsan purus posuere et. Vestibulum non malesuada arcu. Aliquam convallis orci et odio lacinia, sit amet imperdiet orci lobortis. Nulla ac purus aliquet, dignissim diam eget, scelerisque sem. Vivamus ornare tellus sed arcu iaculis ornare. Aenean eu finibus augue. Pellentesque tincidunt sem vitae metus tincidunt, eget sodales odio posuere. Praesent eleifend vitae ante quis pharetra.
-
-Donec at erat massa. Sed imperdiet, elit eget condimentum maximus, magna justo faucibus ante, dignissim elementum augue enim ac purus. Donec mattis et nisl ac finibus. Mauris vel hendrerit risus. In lobortis pulvinar nisi, sed elementum nisi molestie vel. Maecenas arcu odio, finibus pretium tempor quis, suscipit in eros. Pellentesque euismod mattis viverra. In maximus tincidunt velit. Sed sit amet tellus id quam tincidunt suscipit sit amet eu felis. In vel mi finibus, lacinia ligula vitae, placerat felis.
-
-Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor nulla tincidunt. Vivamus condimentum congue nisi in venenatis. Sed volutpat, quam vitae tempor vehicula, libero dui suscipit sapien, luctus molestie mauris lectus a magna. In molestie viverra justo, eget consectetur tellus sagittis id. Duis rutrum elit vitae nulla feugiat varius. Curabitur mollis elementum nibh et hendrerit. Donec in urna ex. Aliquam efficitur neque lobortis lorem scelerisque, ac condimentum libero molestie. Quisque eros enim, egestas et accumsan nec, sollicitudin nec urna. Pellentesque a augue nisl. Pellentesque eu est elit. Phasellus vitae lacus sem. Etiam laoreet tincidunt quam. Nulla facilisis vel justo eu sollicitudin. Nulla ac neque purus.";
+    public static string LOREM = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida non eros sit amet";
 
     public Prompt prompt;
 
-    Channel[] channels;
+    ChannelParams[] channels;
     int currentChannel = -1;
 
     void Start()
     {
-        Dictionary<string, string>[] mapping = new Dictionary<string, string>[]
-        {
-            new Dictionary<string, string>()
-            {
-                { "sit", "SAT" },
-                { "Sed", "SED" }
-            },
-            new Dictionary<string, string>()
-            {
-                { "one", "111" },
-                { "two", "222" },
-                { "ten", "000" },
-            }
-        };
+        channels = new ChannelParams[2];
+        for (int i = 0; i < channels.Length; ++i)
+            channels[i] = new ChannelParams();
 
-        channels = new Channel[]
-        {
-            new Channel(1f, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida", mapping[0]),
-            new Channel(1f, "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", mapping[1])
-        };
+        channels[0].speed = 1f;
+        channels[0].text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida";
+        channels[0].mapping = new Dictionary<string, string>()
+            {
+                { "sit", "sat" },
+                { "Sed", "SED" }
+            };
+
+        channels[1].speed = 1f;
+        channels[1].text = "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve";
+        channels[1].mapping = new Dictionary<string, string>()
+            {
+                { "one", "xxx" },
+                { "two", "yyy" },
+                { "ten", "zzz" },
+            };
 
         nextChannel();
     }
@@ -55,6 +49,6 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
             list.Add(element);
 
         currentChannel = list[Random.Range(0, list.Count)];
-        prompt.changeChannel(channels[currentChannel]);
+        prompt.changeChannel(new Channel(channels[currentChannel]));
     }
 }
