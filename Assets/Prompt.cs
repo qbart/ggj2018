@@ -81,6 +81,7 @@ public class Prompt : MonoBehaviour
 
         if (shouldChangeChannel())
         {
+            Debug.Log("shouldChangeChannel!");
             tv.nextChannel();
         }
         else if (canType() && Input.inputString.Length > 0)
@@ -143,25 +144,43 @@ public class Prompt : MonoBehaviour
     void UpdateSubtitles()
     {
         int newInvalid = currentInvalid;
-        for (int i = 0; i < size; ++i)
+        bool found = false;
+        foreach (int index in getActiveIndices())
         {
-            int next = nextIndex(i);
-            if (words[next].invalid)
+            if (words[index].invalid)
             {
-                if (obj[next].transform.position.x < 0)
-                {
-                    newInvalid = next;
-                    break;
-                }
+                found = true;
+                newInvalid = index;
+                break;
             }
         }
+        if (!found)
+            newInvalid = -1;
+
         if (newInvalid != currentInvalid)
         {
-            Debug.Log("wordChanged!");
-            Word word = words[newInvalid];
-            ledText.text = channel.getMapping(word.text);
-            currentInvalid = newInvalid;
+            //string s = "";
+            //foreach (int i in getVisibleIndices())
+            //    s += words[i].text + ", ";
+            //Debug.Log("visible = " + s);
 
+            //s = "";
+            //foreach (int i in getActiveIndices())
+            //    Debug.Log("active = " + i + " " + words[i].text);
+
+
+            if (newInvalid >= 0)
+            {
+                Debug.Log("wordChanged!");
+                Word word = words[newInvalid];
+                ledText.text = channel.getMapping(word.text);
+            }
+            else
+            {
+                Debug.Log("No word!");
+                ledText.text = "";
+            }
+            currentInvalid = newInvalid;
         }
 
         for (int i = 0; i < size; ++i)
@@ -169,7 +188,7 @@ public class Prompt : MonoBehaviour
 
         if (firstOutOfSight())
         {
-            Debug.Log("firstOutOfSight!");
+            //Debug.Log("firstOutOfSight!");
             text[firstIndex].transform.position = text[lastIndex].transform.position + new Vector3(text[lastIndex].textWidth + SPACE_SIZE, 0, 0);
 
             if (channel.has(wordsNum))
@@ -190,11 +209,6 @@ public class Prompt : MonoBehaviour
             ++firstIndex;
             if (firstIndex >= size)
                 firstIndex = 0;
-        }
-
-        if (shouldChangeChannel())
-        {
-            Debug.Log("shouldChangeChannel!");
         }
     }
 
@@ -219,6 +233,33 @@ public class Prompt : MonoBehaviour
         {
             obj[i].transform.position = obj[i - 1].transform.position + new Vector3(text[i - 1].textWidth + SPACE_SIZE, 0, 0);
         }
+    }
+
+    List<int> getVisibleIndices()
+    {
+        List<int> indices = new List<int>();
+
+        for (int i = 0; i < size; ++i)
+        {
+            int next = nextIndex(i);
+            if (obj[next].transform.position.x >= bounds.leftMiddle.x && obj[next].transform.position.x <= bounds.rightMiddle.x)
+                indices.Add(next);
+        }
+
+        return indices;
+    }
+
+    List<int> getActiveIndices()
+    {
+        List<int> indices = new List<int>();
+
+        foreach (int index in getVisibleIndices())
+        {
+            if (obj[index].transform.position.x >= bounds.caret.x && obj[index].transform.position.x <= bounds.rightMiddle.x)
+                indices.Add(index);
+        }
+
+        return indices;
     }
 
     Bounds buildBounds()

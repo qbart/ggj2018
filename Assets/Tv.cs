@@ -23,8 +23,8 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
         {
             new Dictionary<string, string>()
             {
-                { "sit", "dupa" },
-                { "Sed", "secret" }
+                { "sit", "SAT" },
+                { "Sed", "SED" }
             },
             new Dictionary<string, string>()
             {
@@ -36,8 +36,8 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
 
         channels = new Channel[]
         {
-            new Channel(5f, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida", mapping[0]),
-            new Channel(9f, "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", mapping[1])
+            new Channel(1f, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida", mapping[0]),
+            new Channel(1f, "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", mapping[1])
         };
 
         nextChannel();
@@ -45,9 +45,6 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
 
     public void nextChannel()
     {
-        prompt.changeChannel(channels[1]);
-        return;
-
         HashSet<int> channelSet = new HashSet<int>();
         for (int i = 0; i < channels.Length; ++i)
             channelSet.Add(i);
