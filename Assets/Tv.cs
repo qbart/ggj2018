@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tv : MonoBehaviour
 {
     public Prompt prompt;
+    public GameObject[] visualChannels;
 	public TextAsset[] files;
 	public TextAsset[] mappings;
     public float[] speeds;
@@ -23,7 +24,7 @@ public class Tv : MonoBehaviour
             pars.mapping = readMapping(mappings[i]);
             channels[i] = pars;
         }
-        prompt.changeChannel(new Channel(channels[0]));
+        changeChannel(1);
     }
 
     public void nextChannel()
@@ -45,7 +46,20 @@ public class Tv : MonoBehaviour
 
             currentChannel = list[Random.Range(0, list.Count)];
         }
-        prompt.changeChannel(new Channel(channels[currentChannel]));
+
+        changeChannel(currentChannel);
+    }
+
+    void changeChannel(int index)
+    {
+        for (int i = 0; i < visualChannels.Length; ++i)
+        {
+            if (i == index)
+                visualChannels[i].SetActive(true);
+            else
+                visualChannels[i].SetActive(false);
+        }
+        prompt.changeChannel(new Channel(channels[index]));
     }
 
 
