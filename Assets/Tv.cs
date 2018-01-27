@@ -15,8 +15,6 @@ public class Tv : MonoBehaviour
 
     void Start()
     {
-
-
         channels = new ChannelParams[2];
         for (int i = 0; i < channels.Length; ++i)
             channels[i] = new ChannelParams();
@@ -25,7 +23,7 @@ public class Tv : MonoBehaviour
 		channels [0].text = files [0].text;
 		channels [0].mapping = readMapping (mappings [0]);
 
-        channels[1].speed = 1f;
+        channels[1].speed = 3f;
         channels[1].text = "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve";
         channels[1].mapping = new Dictionary<string, string>()
             {
@@ -34,8 +32,8 @@ public class Tv : MonoBehaviour
                 { "ten", "zzz" },
             };
 
-        //nextChannel();
         prompt.changeChannel(new Channel(channels[0]));
+        //nextChannel();
     }
 
     public void nextChannel()

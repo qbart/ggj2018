@@ -58,6 +58,7 @@ public class Prompt : MonoBehaviour
     int wordsNum = 0;
     int poolEmpty = 0;
     int currentInvalid = -1;
+    int channelChangeState = 0;
 
     const float SPACE_SIZE = 0.25f;
 
@@ -77,6 +78,50 @@ public class Prompt : MonoBehaviour
         initWithChannel(channel);
     }
 
+    void onValidAnswer()
+    {
+        Debug.Log("correct answer!");
+    }
+
+    void onWrongAnswer()
+    {
+        Debug.Log("wrong answer!");
+    }
+
+    void onWordMiss()
+    {
+        Debug.Log("missed answer");
+    }
+
+    void onTextFinished()
+    {
+        Debug.Log("text finished!");
+        //tv.nextChannel();
+
+        channelChangeState = 0;
+    }
+
+    void onPlayerAnnoyed()
+    {
+        Debug.Log("played is angry!");
+
+    }
+
+    void onWordReachedMarker(Word word)
+    {
+        //Debug.Log("word reacher marker! " + word.text);
+
+        if (word.skip)
+        {
+            if (word.success == 1)
+                onValidAnswer();
+            else if (word.success == 0)
+                onWrongAnswer();
+        }
+        else if (word.success == 2)
+            onWordMiss();
+    }
+
     void Awake()
     {
         player.score = 0;
@@ -86,6 +131,7 @@ public class Prompt : MonoBehaviour
         obj = new GameObject[poolSize];
         text = new BlockText[poolSize];
         words = new Word[poolSize];
+        channelChangeState = 0;
 
         for (int i = 0; i < size; ++i)
         {
@@ -98,10 +144,16 @@ public class Prompt : MonoBehaviour
     {
         UpdateSubtitles();
 
-        if (shouldChangeChannel() || player.wantsChangeChannel())
+        if (shouldChangeChannel())
         {
-            Debug.Log("shouldChangeChannel!");
-            tv.nextChannel();
+            if (channelChangeState == 0)
+                channelChangeState = 1;
+
+            if (channelChangeState == 1)
+            {
+                onTextFinished();
+                channelChangeState = 2;
+            }
         }
         else if (canType() && Input.inputString.Length > 0)
         {
@@ -117,16 +169,16 @@ public class Prompt : MonoBehaviour
                 if (channel.isValid(word))
                 {
                     word.skip = true;
-                    word.success = true;
+                    word.success = 1;
                     text[currentInvalid].changeStyle(1);
-                    Debug.Log("valid!");
+                    //onValidAnswer();
                 }
                 else if (channel.lengthExceeded(word))
                 {
                     word.skip = true;
-                    word.success = false;
+                    word.success = 0;
                     text[currentInvalid].changeStyle(2);
-                    Debug.Log("lengthExceeded!");
+                    //onWrongAnswer();
                 }
 
                 for (int i = 1; i < size; ++i)
@@ -141,7 +193,6 @@ public class Prompt : MonoBehaviour
             }
         }
     }
-
 
     int size { get { return poolSize; } }
 
@@ -182,6 +233,17 @@ public class Prompt : MonoBehaviour
 
     void UpdateSubtitles()
     {
+        foreach (int index in getVisibleIndices())
+        {
+            if (words[index].check && obj[index].transform.position.x < bounds.caret.x && words[index].invalid)
+            {
+                words[index].check = false;
+                if (!words[index].skip)
+                    words[index].success = 2;
+                onWordReachedMarker(words[index]);
+            }
+        }
+
         int newInvalid = currentInvalid;
         bool found = false;
         foreach (int index in getActiveIndices())
@@ -207,17 +269,15 @@ public class Prompt : MonoBehaviour
             //foreach (int i in getActiveIndices())
             //    Debug.Log("active = " + i + " " + words[i].text);
 
-
             if (newInvalid >= 0)
             {
-                Debug.Log("wordChanged!");
                 Word word = words[newInvalid];
                 ledText.text = channel.getMapping(word.text);
             }
             else
             {
-                Debug.Log("No word!");
                 ledText.text = "";
+                //onNoMoreWords();
             }
             currentInvalid = newInvalid;
         }

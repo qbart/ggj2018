@@ -10,8 +10,9 @@ public class Word
     public string originalText;
     public float width = 0;
     public bool invalid;
-    public bool success;
+    public int success;
     public bool skip;
+    public bool check;
 
     public int index = 0;
 
@@ -70,13 +71,17 @@ public class Channel
         for (int i = 0; i < wordCount; ++i)
         {
             Word word = new Word();
-            word.success = false;
+            word.success = 0;
             word.skip = false;
+            word.check = true;
             word.text = w[i];
             word.originalText = word.text;
             word.invalid = mapping.ContainsKey(word.text);
             words[i] = word;
         }
+
+        for (int i = 0; i < Math.Min(wordCount, 5); ++i)
+            words[i].check = false;
 
         //Debug.Log(TAG + "word count: " + words.Length);
     }
