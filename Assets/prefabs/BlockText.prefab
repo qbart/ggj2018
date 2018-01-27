@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 102154166810152132}
   - component: {fileID: 114400077984626970}
   - component: {fileID: 114135756068043102}
+  - component: {fileID: 114316179579125896}
   m_Layer: 0
   m_Name: BlockText
   m_TagString: Untagged
@@ -111,6 +112,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortingLayerName: prompt
   SortingOrder: 0
+--- !u!114 &114316179579125896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859080932849558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db95dd3a6623cff44b994f324cdb100b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pixelSize: 1
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  resolutionDependant: 0
+  doubleResolution: 1024
 --- !u!114 &114400077984626970
 MonoBehaviour:
   m_ObjectHideFlags: 1
