@@ -6,13 +6,27 @@ public class Channel
 {
     private static string TAG = "[Channel] ";
 
-    string text;
+    public float speed;
     string[] words;
 
-    public Channel(string text)
+    public Channel(string text, float speed)
     {
-        string[] splitters = { @"\s+" };
+        this.speed = speed;
+        string[] splitters = { @" ", @"\n", @"\r", "\t" };
         words = text.Split(splitters, System.StringSplitOptions.RemoveEmptyEntries);
-        Debug.Log(TAG + "word count = " + words.Length);
+        Debug.Log(TAG + "word count: " + words.Length);
+    }
+
+    public string this[int index]
+    {
+        get
+        {
+            return words[index];
+        }
+    }
+
+    public bool has(int i)
+    {
+        return i < words.Length;
     }
 }

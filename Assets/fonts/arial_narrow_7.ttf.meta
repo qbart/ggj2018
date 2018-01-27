@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 2e2dc9f09d814c842870279fc7fa1c73
+timeCreated: 1516999750
+licenseType: Pro
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Arial Narrow 7
+  fontNames:
+  - Arial Narrow 7
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
