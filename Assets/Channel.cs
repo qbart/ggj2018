@@ -89,13 +89,37 @@ public class Channel
     public bool isValid(Word word)
     {
         string map = getMapping(word.originalText).ToUpper();
-        return map == word.text.ToUpper() && word.index >= map.Length;
+        bool valid = map == word.text.ToUpper() && word.index >= map.Length;
+
+        if (word.originalText.Length > map.Length)
+            return word.text.Substring(0, map.Length).ToUpper() == map;
+
+        return valid;
     }
 
-    public bool lengthExceeded(Word word)
+    public bool reachedLength(Word word)
     {
         string map = getMapping(word.originalText);
-        return map.Length >= word.text.Length && word.index >= map.Length;
+        return word.index >= map.Length;
+    }
+
+    public bool markAsValid(Word word)
+    {
+        string map = getMapping(word.originalText).ToUpper();
+
+        if (word.originalText.Length > map.Length)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(map);
+            int d = word.originalText.Length - map.Length;
+            //for (int i = 0; i < d; ++i)
+            //    sb.Append(" ");
+            word.text = sb.ToString();
+
+            return true;
+        }
+
+        return false;
     }
 
     public Word this[int index]
@@ -120,4 +144,5 @@ public class Channel
     {
         return mapping[text];
     }
+
 }

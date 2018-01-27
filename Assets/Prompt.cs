@@ -166,19 +166,25 @@ public class Prompt : MonoBehaviour
                 text[currentInvalid].text = word.text;
 
                 // check if valid
-                if (channel.isValid(word))
+                if (channel.reachedLength(word))
                 {
-                    word.skip = true;
-                    word.success = 1;
-                    text[currentInvalid].changeStyle(1);
-                    //onValidAnswer();
-                }
-                else if (channel.lengthExceeded(word))
-                {
-                    word.skip = true;
-                    word.success = 0;
-                    text[currentInvalid].changeStyle(2);
-                    //onWrongAnswer();
+                    if (channel.isValid(word))
+                    {
+                        if (channel.markAsValid(word))
+                            text[currentInvalid].text = word.text;
+
+                        word.skip = true;
+                        word.success = 1;
+                        text[currentInvalid].changeStyle(1);
+                        //onValidAnswer();
+                    }
+                    else
+                    {
+                        word.skip = true;
+                        word.success = 0;
+                        text[currentInvalid].changeStyle(2);
+                        //onWrongAnswer();
+                    }
                 }
 
                 for (int i = 1; i < size; ++i)
@@ -239,7 +245,10 @@ public class Prompt : MonoBehaviour
             {
                 words[index].check = false;
                 if (!words[index].skip)
+                {
                     words[index].success = 2;
+                    text[index].changeStyle(2);
+                }
                 onWordReachedMarker(words[index]);
             }
         }
