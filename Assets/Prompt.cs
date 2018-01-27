@@ -25,6 +25,7 @@ public class CycleList
     int firstIndex = 0;
     int poolSize;
     int words = 0;
+    int poolEmpty = 0;
 
     const float SPACE_SIZE = 1;
 
@@ -40,6 +41,7 @@ public class CycleList
         this.startPos = startPos;
         obj = new GameObject[poolSize];
         text = new BlockText[poolSize];
+        poolEmpty = 0;
     }
 
     public int size { get { return poolSize; } }
@@ -57,6 +59,11 @@ public class CycleList
     public bool firstOutOfSight()
     {
         return obj[firstIndex].transform.position.x + text[firstIndex].textWidth < startPos.x - 1;
+    }
+
+    public bool shouldChangeChannel()
+    {
+        return poolEmpty >= poolSize;
     }
 
     public void Update()
@@ -77,11 +84,18 @@ public class CycleList
             else
             {
                 text[firstIndex].text = "";
+                if (poolEmpty < poolSize)
+                    poolEmpty++;
             }
             
             ++firstIndex;
             if (firstIndex >= size)
                 firstIndex = 0;
+        }
+
+        if (shouldChangeChannel())
+        {
+            Debug.Log("shouldChangeChannel!");
         }
     }
 
@@ -90,6 +104,7 @@ public class CycleList
         this.channel = channel;
         firstIndex = 0;
         words = poolSize;
+        poolEmpty = 0;
 
         for (int i = 0; i < size; ++i)
         {
@@ -110,6 +125,7 @@ public class Prompt : MonoBehaviour
 {
     public Frame rect;
     public GameObject textPrefab;
+    public Tv tv;
 
     Bounds bounds;
     CycleList list;
@@ -117,7 +133,12 @@ public class Prompt : MonoBehaviour
 
     const int POOL_SIZE = 10;
 
-    void Start()
+    public void changeChannel(Channel channel)
+    {
+        list.initWithChannel(channel);
+    }
+
+    void Awake()
     {
         bounds = buildBounds();
         list = new CycleList(bounds.leftMiddle, 5);
@@ -126,15 +147,15 @@ public class Prompt : MonoBehaviour
             list.obj[i] = Instantiate(textPrefab, bounds.leftMiddle, Quaternion.identity, transform);
             list.text[i] = list.obj[i].GetComponent<BlockText>();
         }
-
-        channel = new Channel("one two three four five six seven eight nine ten eleven twelve", 1f);
-        list.initWithChannel(channel);
     }
 
     void Update()
     {
         list.Update();
-
+        if (list.shouldChangeChannel())
+        {
+            tv.nextChannel();
+        }
         //if (Input.inputString.Length > 0)
         //{
         //    char c = Input.inputString[0];

@@ -25,6 +25,11 @@ public class Channel
         }
     }
 
+    public int wordCount
+    {
+        get { return words.Length; }
+    }
+
     public bool has(int i)
     {
         return i < words.Length;
