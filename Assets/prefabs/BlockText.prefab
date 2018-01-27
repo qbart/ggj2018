@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59736b24481789848b5b1a3435533dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortingLayerName: channel
+  SortingLayerName: prompt
   SortingOrder: 0
 --- !u!114 &114400077984626970
 MonoBehaviour:

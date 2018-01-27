@@ -159,6 +159,8 @@ MonoBehaviour:
   - {fileID: 4900000, guid: aa80a33a032574903880d7dc92b8533b, type: 3}
   mappings:
   - {fileID: 4900000, guid: 56e9f5ca6c49e47b7a1f95466289fcfb, type: 3}
+  speeds:
+  - 1
 --- !u!1 &76212447
 GameObject:
   m_ObjectHideFlags: 0
