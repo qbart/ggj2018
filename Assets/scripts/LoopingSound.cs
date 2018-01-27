@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoopingSound : MonoBehaviour {
 
-	AudioSource audio;
+	AudioSource audioPlayer;
 	public AudioClip sndStart;
 	public AudioClip sndRepeat;
 	public AudioClip sndEnd;
@@ -12,25 +12,25 @@ public class LoopingSound : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		audio = GetComponent<AudioSource>();
+		audioPlayer = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey ("space")) {
 			if (!startPlayed) {
-				audio.clip = sndStart;
-				audio.Play();
+				audioPlayer.clip = sndStart;
+				audioPlayer.Play();
 				startPlayed = true;
 			}
-			if (!audio.isPlaying) {
-				audio.clip = sndRepeat;
-				audio.Play ();
+			if (!audioPlayer.isPlaying) {
+				audioPlayer.clip = sndRepeat;
+				audioPlayer.Play ();
 			}
 		} 
 
 		if (Input.GetKeyUp("space")) {
-			audio.PlayOneShot(sndEnd);
+			audioPlayer.PlayOneShot(sndEnd);
 			startPlayed = false;
 		}
 	}
