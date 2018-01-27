@@ -23,8 +23,8 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
         {
             new Dictionary<string, string>()
             {
-                { "four", "dupa" },
-                { "eleven", "secret" }
+                { "sit", "dupa" },
+                { "Sed", "secret" }
             },
             new Dictionary<string, string>()
             {
@@ -36,7 +36,7 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
 
         channels = new Channel[]
         {
-            new Channel(3f, "one two three four five six seven eight nine ten eleven twelve", mapping[0]),
+            new Channel(5f, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida", mapping[0]),
             new Channel(9f, "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", mapping[1])
         };
 

@@ -27,7 +27,7 @@ public class CycleList
     int words = 0;
     int poolEmpty = 0;
 
-    const float SPACE_SIZE = 1;
+    const float SPACE_SIZE = 0.25f;
 
     public GameObject[] obj;
     public BlockText[] text;
@@ -145,10 +145,11 @@ public class Prompt : MonoBehaviour
     void Awake()
     {
         bounds = buildBounds();
-        list = new CycleList(bounds.leftMiddle, 5);
+        list = new CycleList(bounds.leftMiddle, 10);
         for (int i = 0; i < list.size; ++i)
         {
             list.obj[i] = Instantiate(textPrefab, bounds.leftMiddle, Quaternion.identity, transform);
+            //list.obj[i].
             list.text[i] = list.obj[i].GetComponent<BlockText>();
         }
     }
@@ -160,22 +161,25 @@ public class Prompt : MonoBehaviour
         {
             tv.nextChannel();
         }
-        //if (Input.inputString.Length > 0)
-        //{
-        //    char c = Input.inputString[0];
-        //    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-        //    {
-        //        string chr = c.ToString().ToUpper();
-        //        text[0].text = text[0].text + chr;
-        //        for (int i = 1; i < 5; ++i)
-        //        {
-        //            text[i].transform.position = text[i].transform.position + new Vector3(0.3f, 0, 0);
+        else
+        {
+            if (Input.inputString.Length > 0)
+            {
+                char c = Input.inputString[0];
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+                {
+                    //string chr = c.ToString().ToUpper();
+                    //text[0].text = text[0].text + chr;
+                    //for (int i = 1; i < 5; ++i)
+                    //{
+                    //    text[i].transform.position = text[i].transform.position + new Vector3(0.3f, 0, 0);
 
-        //        }
+                    //}
 
 
-        //    }
-        //}
+                }
+            }
+        }
     }
 
     Bounds buildBounds()

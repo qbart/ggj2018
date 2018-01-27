@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 23418811747350438}
   - component: {fileID: 102154166810152132}
   - component: {fileID: 114400077984626970}
+  - component: {fileID: 114135756068043102}
   m_Layer: 0
   m_Name: BlockText
   m_TagString: Untagged
@@ -90,13 +91,26 @@ TextMesh:
   m_Anchor: 3
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 40
+  m_FontSize: 30
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 2e2dc9f09d814c842870279fc7fa1c73, type: 3}
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &114135756068043102
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1859080932849558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59736b24481789848b5b1a3435533dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortingLayerName: channel
+  SortingOrder: 0
 --- !u!114 &114400077984626970
 MonoBehaviour:
   m_ObjectHideFlags: 1
