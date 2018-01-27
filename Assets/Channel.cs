@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -53,5 +54,10 @@ public class Channel
     public bool has(int i)
     {
         return i < words.Length;
+    }
+
+    public string getMapping(string text)
+    {
+        return mapping[text];
     }
 }

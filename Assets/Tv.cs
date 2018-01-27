@@ -45,6 +45,9 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
 
     public void nextChannel()
     {
+        prompt.changeChannel(channels[1]);
+        return;
+
         HashSet<int> channelSet = new HashSet<int>();
         for (int i = 0; i < channels.Length; ++i)
             channelSet.Add(i);

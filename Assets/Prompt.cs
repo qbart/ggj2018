@@ -11,6 +11,7 @@ public struct Frame
     public float y;
     public float width;
     public float height;
+    public float caretX;
 }
 
 struct Bounds
@@ -18,35 +19,94 @@ struct Bounds
     public Vector3[] points;
     public Vector3 leftMiddle;
     public Vector3 rightMiddle;
+    public Vector3 caret;
 }
 
 public class CycleList
 {
+
+}
+
+
+public class Prompt : MonoBehaviour
+{
+    public Frame rect;
+    public GameObject textPrefab;
+    public Tv tv;
+    public TextMesh ledText;
+
+    Bounds bounds;
+
     int firstIndex = 0;
     int poolSize;
-    int words = 0;
+    int wordsNum = 0;
     int poolEmpty = 0;
+    int currentInvalid = -1;
 
     const float SPACE_SIZE = 0.25f;
 
     public GameObject[] obj;
     public BlockText[] text;
+    public Word[] words;
 
     Channel channel;
     Vector3 startPos;
 
-    public CycleList(Vector3 startPos, int poolSize)
+    const int POOL_SIZE = 10;
+
+    public void changeChannel(Channel channel)
     {
-        this.poolSize = poolSize;
-        this.startPos = startPos;
-        obj = new GameObject[poolSize];
-        text = new BlockText[poolSize];
-        poolEmpty = 0;
+        initWithChannel(channel);
     }
 
-    public int size { get { return poolSize; } }
+    void Awake()
+    {
+        bounds = buildBounds();
+        startPos = bounds.leftMiddle;
+        poolSize = POOL_SIZE;
+        obj = new GameObject[poolSize];
+        text = new BlockText[poolSize];
+        words = new Word[poolSize];
 
-    public int lastIndex {
+        for (int i = 0; i < size; ++i)
+        {
+            obj[i] = Instantiate(textPrefab, bounds.leftMiddle, Quaternion.identity, transform);
+            text[i] = obj[i].GetComponent<BlockText>();
+        }
+    }
+
+    void Update()
+    {
+        UpdateSubtitles();
+
+        if (shouldChangeChannel())
+        {
+            tv.nextChannel();
+        }
+        else if (canType() && Input.inputString.Length > 0)
+        {
+            char c = Input.inputString[0];
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+            {
+                string chr = c.ToString().ToUpper();
+
+                //text[0].text = text[0].text + chr;
+                //for (int i = 1; i < 5; ++i)
+                //{
+                //    text[i].transform.position = text[i].transform.position + new Vector3(0.3f, 0, 0);
+
+                //}
+
+
+            }
+        }
+    }
+
+
+    int size { get { return poolSize; } }
+
+    int lastIndex
+    {
         get
         {
             if (firstIndex == 0)
@@ -56,32 +116,69 @@ public class CycleList
         }
     }
 
-    public bool firstOutOfSight()
+    bool canType()
+    {
+        return currentInvalid != -1;
+    }
+
+    bool firstOutOfSight()
     {
         return obj[firstIndex].transform.position.x + text[firstIndex].textWidth < startPos.x - 1;
     }
 
-    public bool shouldChangeChannel()
+    bool shouldChangeChannel()
     {
         return poolEmpty >= poolSize;
     }
 
-    public void Update()
+    int nextIndex(int offset)
     {
+        int next = firstIndex + offset;
+        if (next >= size)
+            next -= size;
+
+        return next;
+    }
+
+    void UpdateSubtitles()
+    {
+        int newInvalid = currentInvalid;
         for (int i = 0; i < size; ++i)
-            text[i].transform.position = text[i].transform.position + (Vector3.left * channel.speed) * Time.deltaTime; 
+        {
+            int next = nextIndex(i);
+            if (words[next].invalid)
+            {
+                if (obj[next].transform.position.x < 0)
+                {
+                    newInvalid = next;
+                    break;
+                }
+            }
+        }
+        if (newInvalid != currentInvalid)
+        {
+            Debug.Log("wordChanged!");
+            Word word = words[newInvalid];
+            ledText.text = channel.getMapping(word.text);
+            currentInvalid = newInvalid;
+
+        }
+
+        for (int i = 0; i < size; ++i)
+            text[i].transform.position = text[i].transform.position + (Vector3.left * channel.speed) * Time.deltaTime;
 
         if (firstOutOfSight())
         {
             Debug.Log("firstOutOfSight!");
             text[firstIndex].transform.position = text[lastIndex].transform.position + new Vector3(text[lastIndex].textWidth + SPACE_SIZE, 0, 0);
 
-            if (channel.has(words))
+            if (channel.has(wordsNum))
             {
-                Word word = channel[words];
+                Word word = channel[wordsNum];
                 text[firstIndex].text = word.text;
                 text[firstIndex].changeStyle(word.invalid);
-                words++;
+                words[firstIndex] = word;
+                wordsNum++;
             }
             else
             {
@@ -89,7 +186,7 @@ public class CycleList
                 if (poolEmpty < poolSize)
                     poolEmpty++;
             }
-            
+
             ++firstIndex;
             if (firstIndex >= size)
                 firstIndex = 0;
@@ -101,12 +198,13 @@ public class CycleList
         }
     }
 
-    public void initWithChannel(Channel channel)
+    void initWithChannel(Channel channel)
     {
         this.channel = channel;
         firstIndex = 0;
-        words = poolSize;
+        wordsNum = poolSize;
         poolEmpty = 0;
+        currentInvalid = -1;
 
         for (int i = 0; i < size; ++i)
         {
@@ -114,71 +212,12 @@ public class CycleList
             text[i].text = word.text;
             text[i].changeStyle(word.invalid);
             obj[i].transform.position = startPos;
+            words[i] = word;
         }
 
         for (int i = 1; i < size; ++i)
         {
-            //Debug.Log("textSize for: " + i + " = " + text[i - 1].textWidth);
             obj[i].transform.position = obj[i - 1].transform.position + new Vector3(text[i - 1].textWidth + SPACE_SIZE, 0, 0);
-        }
-    }
-}
-
-
-public class Prompt : MonoBehaviour
-{
-    public Frame rect;
-    public GameObject textPrefab;
-    public Tv tv;
-
-    Bounds bounds;
-    CycleList list;
-    Channel channel;
-
-    const int POOL_SIZE = 10;
-
-    public void changeChannel(Channel channel)
-    {
-        list.initWithChannel(channel);
-    }
-
-    void Awake()
-    {
-        bounds = buildBounds();
-        list = new CycleList(bounds.leftMiddle, 10);
-        for (int i = 0; i < list.size; ++i)
-        {
-            list.obj[i] = Instantiate(textPrefab, bounds.leftMiddle, Quaternion.identity, transform);
-            //list.obj[i].
-            list.text[i] = list.obj[i].GetComponent<BlockText>();
-        }
-    }
-
-    void Update()
-    {
-        list.Update();
-        if (list.shouldChangeChannel())
-        {
-            tv.nextChannel();
-        }
-        else
-        {
-            if (Input.inputString.Length > 0)
-            {
-                char c = Input.inputString[0];
-                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-                {
-                    //string chr = c.ToString().ToUpper();
-                    //text[0].text = text[0].text + chr;
-                    //for (int i = 1; i < 5; ++i)
-                    //{
-                    //    text[i].transform.position = text[i].transform.position + new Vector3(0.3f, 0, 0);
-
-                    //}
-
-
-                }
-            }
         }
     }
 
@@ -194,6 +233,7 @@ public class Prompt : MonoBehaviour
         };
         b.leftMiddle = (b.points[0] + b.points[3]) / 2;
         b.rightMiddle = (b.points[1] + b.points[2]) / 2;
+        b.caret = Vector3.Lerp(b.points[0], b.points[1], rect.caretX);
 
         return b;
     }
@@ -208,5 +248,7 @@ public class Prompt : MonoBehaviour
         Gizmos.DrawLine(b.points[3], b.points[0]);
         Gizmos.DrawCube(b.leftMiddle, POINT_SIZE);
         Gizmos.DrawCube(b.rightMiddle, POINT_SIZE);
+
+        Gizmos.DrawCube(b.caret, POINT_SIZE);
     }
 }
