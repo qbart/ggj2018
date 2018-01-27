@@ -36,15 +36,25 @@ public class BlockText : MonoBehaviour
         }
     }
 
-    public void changeStyle(bool invalid)
+    public void changeStyle(int num)
     {
-        if (invalid)
+        switch (num)
         {
-            mesh.color = Color.red;
-        }
-        else
-        {
-            mesh.color = Color.white;
+            case 1:
+                mesh.color = Color.green;
+                break;
+
+            case 2:
+                mesh.color = Color.red;
+                break;
+
+            case 3:
+                mesh.color = Color.yellow;
+                break;
+
+            default:
+                mesh.color = Color.white;
+                break;
         }
     }
 

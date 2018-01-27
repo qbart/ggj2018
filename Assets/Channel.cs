@@ -7,10 +7,13 @@ using System.Text;
 public class Word
 {
     public string text;
+    public string originalText;
     public float width = 0;
     public bool invalid;
+    public bool success;
+    public bool skip;
 
-    int index = 0;
+    public int index = 0;
 
     public void addChar(char chr)
     {
@@ -36,6 +39,7 @@ public class Word
 
         ++index;
     }
+
 }
 
 
@@ -57,8 +61,8 @@ public class Channel
 
     public Channel(ChannelParams args)
     {
-        this.mapping = new Dictionary<string, string>(args.mapping);
-        this.speed = args.speed;
+        mapping = new Dictionary<string, string>(args.mapping);
+        speed = args.speed;
         string[] splitters = { @" ", @"\n", @"\r", "\t" };
         string[] w = args.text.Split(splitters, System.StringSplitOptions.RemoveEmptyEntries);
         words = new Word[w.Length];
@@ -66,12 +70,27 @@ public class Channel
         for (int i = 0; i < wordCount; ++i)
         {
             Word word = new Word();
+            word.success = false;
+            word.skip = false;
             word.text = w[i];
+            word.originalText = word.text;
             word.invalid = mapping.ContainsKey(word.text);
             words[i] = word;
         }
 
         //Debug.Log(TAG + "word count: " + words.Length);
+    }
+
+    public bool isValid(Word word)
+    {
+        string map = getMapping(word.originalText).ToUpper();
+        return map == word.text.ToUpper() && word.index >= map.Length;
+    }
+
+    public bool lengthExceeded(Word word)
+    {
+        string map = getMapping(word.originalText);
+        return map.Length >= word.text.Length && word.index >= map.Length;
     }
 
     public Word this[int index]

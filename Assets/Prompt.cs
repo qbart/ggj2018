@@ -22,9 +22,25 @@ struct Bounds
     public Vector3 caret;
 }
 
-public class CycleList
+struct Player
 {
 
+    public int score;
+
+    public void success()
+    {
+        score += 1;
+    }
+
+    public void failure()
+    {
+        score -= 3;
+    }
+
+    public bool wantsChangeChannel()
+    {
+        return score < 0;
+    }
 }
 
 
@@ -52,6 +68,8 @@ public class Prompt : MonoBehaviour
     Channel channel;
     Vector3 startPos;
 
+    Player player;
+
     const int POOL_SIZE = 10;
 
     public void changeChannel(Channel channel)
@@ -61,6 +79,7 @@ public class Prompt : MonoBehaviour
 
     void Awake()
     {
+        player.score = 0;
         bounds = buildBounds();
         startPos = bounds.leftMiddle;
         poolSize = POOL_SIZE;
@@ -79,7 +98,7 @@ public class Prompt : MonoBehaviour
     {
         UpdateSubtitles();
 
-        if (shouldChangeChannel())
+        if (shouldChangeChannel() || player.wantsChangeChannel())
         {
             Debug.Log("shouldChangeChannel!");
             tv.nextChannel();
@@ -89,10 +108,26 @@ public class Prompt : MonoBehaviour
             char c = Input.inputString[0];
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
             {
-                Debug.Log("char: " + c);
+                //Debug.Log("char: " + c);
                 Word word = words[currentInvalid];
                 word.addChar(c);
                 text[currentInvalid].text = word.text;
+
+                // check if valid
+                if (channel.isValid(word))
+                {
+                    word.skip = true;
+                    word.success = true;
+                    text[currentInvalid].changeStyle(1);
+                    Debug.Log("valid!");
+                }
+                else if (channel.lengthExceeded(word))
+                {
+                    word.skip = true;
+                    word.success = false;
+                    text[currentInvalid].changeStyle(2);
+                    Debug.Log("lengthExceeded!");
+                }
 
                 for (int i = 1; i < size; ++i)
                 {
@@ -197,11 +232,11 @@ public class Prompt : MonoBehaviour
 
             if (channel.has(wordsNum))
             {
+                // take next
                 Word word = channel[wordsNum];
                 text[firstIndex].text = word.text;
-                text[firstIndex].changeStyle(word.invalid);
+                text[firstIndex].changeStyle(word.invalid ? 3 : 0);
                 words[firstIndex] = word;
-                words[firstIndex].width = text[firstIndex].textWidth;
                 wordsNum++;
             }
             else
@@ -226,11 +261,12 @@ public class Prompt : MonoBehaviour
         poolEmpty = 0;
         currentInvalid = -1;
 
+        // init
         for (int i = 0; i < size; ++i)
         {
             Word word = channel[i];
             text[i].text = word.text;
-            text[i].changeStyle(word.invalid);
+            text[i].changeStyle(word.invalid ? 3 : 0);
             obj[i].transform.position = startPos;
             words[i] = word;
             words[i].width = text[i].textWidth;
@@ -263,7 +299,8 @@ public class Prompt : MonoBehaviour
         foreach (int index in getVisibleIndices())
         {
             if (obj[index].transform.position.x >= bounds.caret.x && obj[index].transform.position.x <= bounds.rightMiddle.x)
-                indices.Add(index);
+                if (!words[index].skip)
+                    indices.Add(index);
         }
 
         return indices;

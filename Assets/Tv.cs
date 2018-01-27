@@ -34,7 +34,8 @@ public class Tv : MonoBehaviour
                 { "ten", "zzz" },
             };
 
-        nextChannel();
+        //nextChannel();
+        prompt.changeChannel(new Channel(channels[1]));
     }
 
     public void nextChannel()
