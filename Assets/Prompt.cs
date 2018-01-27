@@ -78,7 +78,9 @@ public class CycleList
 
             if (channel.has(words))
             {
-                text[firstIndex].text = channel[words];
+                Word word = channel[words];
+                text[firstIndex].text = word.text;
+                text[firstIndex].changeStyle(word.invalid);
                 words++;
             }
             else
@@ -108,7 +110,9 @@ public class CycleList
 
         for (int i = 0; i < size; ++i)
         {
-            text[i].text = channel[i];
+            Word word = channel[i];
+            text[i].text = word.text;
+            text[i].changeStyle(word.invalid);
             obj[i].transform.position = startPos;
         }
 

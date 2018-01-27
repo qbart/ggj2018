@@ -36,6 +36,17 @@ public class BlockText : MonoBehaviour
         }
     }
 
+    public void changeStyle(bool invalid)
+    {
+        if (invalid)
+        {
+            mesh.color = Color.red;
+        }
+        else
+        {
+            mesh.color = Color.white;
+        }
+    }
 
     void Awake()
     {

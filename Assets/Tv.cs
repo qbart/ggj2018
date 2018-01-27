@@ -19,10 +19,25 @@ Pellentesque ut orci quam. Sed malesuada diam sed odio lacinia, sit amet tempor 
 
     void Start()
     {
+        Dictionary<string, string>[] mapping = new Dictionary<string, string>[]
+        {
+            new Dictionary<string, string>()
+            {
+                { "four", "dupa" },
+                { "eleven", "secret" }
+            },
+            new Dictionary<string, string>()
+            {
+                { "one", "111" },
+                { "two", "222" },
+                { "ten", "000" },
+            }
+        };
+
         channels = new Channel[]
         {
-            new Channel("one two three four five six seven eight nine ten eleven twelve", 3f),
-            new Channel("one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", 9f)
+            new Channel(3f, "one two three four five six seven eight nine ten eleven twelve", mapping[0]),
+            new Channel(9f, "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve ", mapping[1])
         };
 
         nextChannel();
