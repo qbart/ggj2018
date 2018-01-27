@@ -7,23 +7,23 @@ public class Tv : MonoBehaviour
     public static string LOREM = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida non eros sit amet";
 
     public Prompt prompt;
+	public TextAsset[] files;
+	public TextAsset[] mappings;
 
     ChannelParams[] channels;
     int currentChannel = -1;
 
     void Start()
     {
+
+
         channels = new ChannelParams[2];
         for (int i = 0; i < channels.Length; ++i)
             channels[i] = new ChannelParams();
 
         channels[0].speed = 1f;
-        channels[0].text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer id orci pharetra ex varius faucibus. Sed vulputate sollicitudin diam a fringilla. Duis dolor magna, gravida";
-        channels[0].mapping = new Dictionary<string, string>()
-            {
-                { "sit", "sat" },
-                { "Sed", "SED" }
-            };
+		channels [0].text = files [0].text;
+		channels [0].mapping = readMapping (mappings [0]);
 
         channels[1].speed = 1f;
         channels[1].text = "one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve one two three four five six seven eight nine ten eleven twelve";
@@ -35,7 +35,7 @@ public class Tv : MonoBehaviour
             };
 
         //nextChannel();
-        prompt.changeChannel(new Channel(channels[1]));
+        prompt.changeChannel(new Channel(channels[0]));
     }
 
     public void nextChannel()
@@ -52,4 +52,20 @@ public class Tv : MonoBehaviour
         currentChannel = list[Random.Range(0, list.Count)];
         prompt.changeChannel(new Channel(channels[currentChannel]));
     }
+
+
+	private Dictionary<string, string> readMapping(TextAsset mappingFile)
+	{
+		string[] records = mappingFile.text.Split ('\n');
+		Dictionary<string, string> mapping = new Dictionary<string, string> ();
+		foreach (string record in records)
+		{	
+			if (record.Contains(",")) {
+				string[] fields = record.Split(',');
+				mapping [fields [0]] = fields [1];
+			}
+		}
+
+		return mapping;
+	}
 }
