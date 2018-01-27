@@ -74,7 +74,7 @@ public class Channel
             word.success = 0;
             word.skip = false;
             word.check = true;
-            word.text = w[i];
+            word.text = w[i].Trim();
             word.originalText = word.text;
             word.invalid = mapping.ContainsKey(word.text);
             words[i] = word;
