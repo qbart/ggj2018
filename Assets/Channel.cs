@@ -74,7 +74,7 @@ public class Channel
             word.check = true;
             word.text = w[i].Trim();
             word.originalText = word.text;
-            word.invalid = mapping.ContainsKey(word.text);
+            word.invalid = mapping.ContainsKey(word.text.ToLower());
             words[i] = word;
         }
 
@@ -134,7 +134,7 @@ public class Channel
 
     public string getMapping(string text)
     {
-        return mapping[text];
+        return mapping[text.ToLower()];
     }
 
 }

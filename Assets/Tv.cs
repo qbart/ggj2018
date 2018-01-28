@@ -14,9 +14,12 @@ public class Tv : MonoBehaviour
     int currentChannel = -1;
     public AudioSource media;
 
+    bool randomize;
+
 
     void Start()
     {
+        randomize = false;
         media = GetComponent<AudioSource>();
         channels = new ChannelParams[files.Length];
         for (int i = 0; i < channels.Length; ++i)
@@ -27,28 +30,38 @@ public class Tv : MonoBehaviour
             pars.mapping = readMapping(mappings[i]);
             channels[i] = pars;
         }
-        changeChannel(1);
+        currentChannel = 1;
+        changeChannel(currentChannel);
     }
 
     public void nextChannel()
     {
-        if (channels.Length == 1)
+        if (randomize)
         {
-            currentChannel = 0;
+            if (channels.Length == 1)
+            {
+                currentChannel = 0;
+            }
+            else
+            {
+                HashSet<int> channelSet = new HashSet<int>();
+                for (int i = 0; i < channels.Length; ++i)
+                    channelSet.Add(i);
+
+                channelSet.Remove(currentChannel);
+                channelSet.Remove(0);
+                List<int> list = new List<int>();
+                foreach (int element in channelSet)
+                    list.Add(element);
+
+                currentChannel = list[Random.Range(0, list.Count)];
+            }
         }
         else
         {
-            HashSet<int> channelSet = new HashSet<int>();
-            for (int i = 0; i < channels.Length; ++i)
-                channelSet.Add(i);
-
-            channelSet.Remove(currentChannel);
-            channelSet.Remove(0);
-            List<int> list = new List<int>();
-            foreach (int element in channelSet)
-                list.Add(element);
-
-            currentChannel = list[Random.Range(0, list.Count)];
+            currentChannel++;
+            if (currentChannel >= channels.Length)
+                currentChannel = 1;
         }
         changeChannel(currentChannel);
     }
