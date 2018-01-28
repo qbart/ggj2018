@@ -12,7 +12,7 @@ public class Tv : MonoBehaviour
 
     ChannelParams[] channels;
     int currentChannel = -1;
-    AudioSource media;
+    public AudioSource media;
 
 
     void Start()
@@ -62,7 +62,8 @@ public class Tv : MonoBehaviour
             if (i == index)
             {
                 visualChannels[i].SetActive(true);
-                media.PlayOneShot(visualChannels[i].GetComponent<VisualChannel>().clip);
+				media.clip = visualChannels [i].GetComponent<VisualChannel> ().clip;
+                media.Play();
             }
             else
                 visualChannels[i].SetActive(false);
