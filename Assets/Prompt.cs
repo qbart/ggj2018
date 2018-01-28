@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 
 [System.Serializable]
@@ -176,10 +177,11 @@ public class Prompt : MonoBehaviour
 		audioPlayer.PlayOneShot(tvOff);
         ledText.gameObject.SetActive(false);
 
-        foreach (Transform bt in GetComponentsInChildren<Transform>())
-        {
+        foreach (BlockText bt in GetComponentsInChildren<BlockText>())
             bt.gameObject.SetActive(false);
-        }
+
+        marker.SetActive(false);
+
     }
 
     void onWordReachedMarker(Word word)
@@ -250,6 +252,9 @@ public class Prompt : MonoBehaviour
         // game over
         if (state == 1)
         {
+            if (Input.anyKeyDown)
+                SceneManager.LoadScene("menu_scene");
+
             return;
         }
 
