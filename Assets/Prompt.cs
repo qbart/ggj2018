@@ -74,6 +74,8 @@ public class Prompt : MonoBehaviour
     public Tv tv;
     public TextMesh ledText;
     public Animator handAnim;
+	AudioSource audioPlayer;
+	public AudioClip clickSnd;
 
     Bounds bounds;
 
@@ -131,7 +133,7 @@ public class Prompt : MonoBehaviour
         Debug.Log("level failed!");
 
         player.resetChannel();
-
+		audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
 
         requestChannelChange = true;
@@ -144,6 +146,7 @@ public class Prompt : MonoBehaviour
         player.successLevel();
         player.resetChannel();
 
+		audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
 
         requestChannelChange = true;
@@ -170,6 +173,10 @@ public class Prompt : MonoBehaviour
         else if (word.success == 2)
             onWordMiss();
     }
+
+	void Start() {
+		audioPlayer = GetComponent<AudioSource>();
+	}
 
     void Awake()
     {
