@@ -74,8 +74,9 @@ public class Prompt : MonoBehaviour
     public Tv tv;
     public TextMesh ledText;
     public Animator handAnim;
-	AudioSource audioPlayer;
+    public Animator tvAnim;
 	public AudioClip clickSnd;
+	AudioSource audioPlayer;
 
     Bounds bounds;
 
@@ -156,7 +157,12 @@ public class Prompt : MonoBehaviour
     {
         Debug.Log("game ended!");
 
+        audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
+
+        tvAnim.gameObject.SetActive(true);
+        tvAnim.SetTrigger("turnoff");
+        ledText.gameObject.SetActive(false);
     }
 
     void onWordReachedMarker(Word word)
@@ -174,12 +180,14 @@ public class Prompt : MonoBehaviour
             onWordMiss();
     }
 
-	void Start() {
+	void Start()
+    {
 		audioPlayer = GetComponent<AudioSource>();
-	}
+        tvAnim.gameObject.SetActive(false);
+    }
 
     void Awake()
-    {
+    { 
         requestChannelChange = false;
         animState.curr = 0;
         animState.prev = 0;

@@ -50,6 +50,9 @@ TagManager:
   - name: prompt
     uniqueID: 1994912605
     locked: 0
+  - name: tvscreen
+    uniqueID: 1894693669
+    locked: 0
   - name: tv
     uniqueID: 2433867737
     locked: 0
