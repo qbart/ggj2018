@@ -40,6 +40,7 @@ public class Tv : MonoBehaviour
                 channelSet.Add(i);
 
             channelSet.Remove(currentChannel);
+            channelSet.Remove(0);
             List<int> list = new List<int>();
             foreach (int element in channelSet)
                 list.Add(element);
