@@ -303,6 +303,7 @@ MonoBehaviour:
   - 2
   - 2
   - 2
+  media: {fileID: 0}
 --- !u!82 &41390903
 AudioSource:
   m_ObjectHideFlags: 0
