@@ -695,6 +695,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114612459589370966, guid: 3e80b721493f586469c65d534427a0c7,
+        type: 2}
+      propertyPath: handAnim
+      value: 
+      objectReference: {fileID: 1919975706}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e80b721493f586469c65d534427a0c7, type: 2}
   m_IsPrefabParent: 0
@@ -800,7 +805,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 857356775}
-  - component: {fileID: 857356774}
   m_Layer: 0
   m_Name: hand
   m_TagString: Untagged
@@ -808,23 +812,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &857356774
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 857356773}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7a412877e12454938b828701fe98d39a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!4 &857356775
 Transform:
   m_ObjectHideFlags: 0
@@ -1133,7 +1120,7 @@ Prefab:
     - target: {fileID: 102280914964054436, guid: cd1b6bce479806a4a83667f25f4824cf,
         type: 2}
       propertyPath: m_Color.rgba
-      value: 4279731968
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cd1b6bce479806a4a83667f25f4824cf, type: 2}

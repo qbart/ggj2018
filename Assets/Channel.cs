@@ -53,8 +53,6 @@ public class ChannelParams
 
 public class Channel
 {
-    private static string TAG = "[Channel] ";
-
     public Dictionary<string, string> mapping;
     public float speed;
 
@@ -109,13 +107,7 @@ public class Channel
 
         if (word.originalText.Length > map.Length)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append(map);
-            int d = word.originalText.Length - map.Length;
-            //for (int i = 0; i < d; ++i)
-            //    sb.Append(" ");
-            word.text = sb.ToString();
-
+            word.text = map;
             return true;
         }
 

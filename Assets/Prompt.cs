@@ -24,25 +24,48 @@ struct Bounds
 
 struct Player
 {
-
     public int score;
+    public int channelScore;
 
-    public void success()
+    public void successWord()
     {
         score += 1;
     }
 
-    public void failure()
+    public void failureWord()
     {
-        score -= 3;
+        score -= 1;
+        channelScore -= 1;
     }
 
-    public bool wantsChangeChannel()
+    public void successLevel()
     {
-        return score < 0;
+        score += 1;
+    }
+
+    public bool wantsToChangeChannel()
+    {
+        return channelScore <= 0;
+    }
+
+    public bool gameOver()
+    {
+        return score <= 0;
+    }
+
+    public void resetChannel()
+    {
+        channelScore = 2;
     }
 }
 
+
+struct AnimState
+{
+    public int prev;
+    public int curr;
+    public string trigger;
+}
 
 public class Prompt : MonoBehaviour
 {
@@ -50,6 +73,7 @@ public class Prompt : MonoBehaviour
     public GameObject textPrefab;
     public Tv tv;
     public TextMesh ledText;
+    public Animator handAnim;
 
     Bounds bounds;
 
@@ -59,17 +83,21 @@ public class Prompt : MonoBehaviour
     int poolEmpty = 0;
     int currentInvalid = -1;
     int channelChangeState = 0;
+    bool requestChannelChange;
+    int state = 0;
 
     const float SPACE_SIZE = 0.25f;
 
-    public GameObject[] obj;
-    public BlockText[] text;
-    public Word[] words;
+    GameObject[] obj;
+    BlockText[] text;
+    Word[] words;
 
     Channel channel;
     Vector3 startPos;
 
     Player player;
+
+    AnimState animState;
 
     const int POOL_SIZE = 10;
 
@@ -81,30 +109,51 @@ public class Prompt : MonoBehaviour
     void onValidAnswer()
     {
         Debug.Log("correct answer!");
+        player.successWord();
     }
 
     void onWrongAnswer()
     {
         Debug.Log("wrong answer!");
+        player.failureWord();
+        animState.trigger = "angry";
     }
 
     void onWordMiss()
     {
         Debug.Log("missed answer");
+        player.failureWord();
+        animState.trigger = "angry";
     }
 
-    void onTextFinished()
+    void onLevelFailed()
+    {
+        Debug.Log("level failed!");
+
+        player.resetChannel();
+
+        animState.trigger = "click";
+
+        requestChannelChange = true;
+    }
+
+    void onLevelSuccess()
     {
         Debug.Log("text finished!");
-        //tv.nextChannel();
 
-        channelChangeState = 0;
+        player.successLevel();
+        player.resetChannel();
+
+        animState.trigger = "click";
+
+        requestChannelChange = true;
     }
 
-    void onPlayerAnnoyed()
+    void onGameEnded()
     {
-        Debug.Log("played is angry!");
+        Debug.Log("game ended!");
 
+        animState.trigger = "click";
     }
 
     void onWordReachedMarker(Word word)
@@ -124,7 +173,13 @@ public class Prompt : MonoBehaviour
 
     void Awake()
     {
-        player.score = 0;
+        requestChannelChange = false;
+        animState.curr = 0;
+        animState.prev = 0;
+        animState.trigger = "";
+
+        player.score = 5;
+        player.resetChannel();
         bounds = buildBounds();
         startPos = bounds.leftMiddle;
         poolSize = POOL_SIZE;
@@ -138,20 +193,62 @@ public class Prompt : MonoBehaviour
             obj[i] = Instantiate(textPrefab, bounds.leftMiddle, Quaternion.identity, transform);
             text[i] = obj[i].GetComponent<BlockText>();
         }
+
+        state = 0;
     }
 
     void Update()
     {
+        if (animState.trigger != "")
+        {
+            handAnim.SetTrigger(animState.trigger);
+            animState.trigger = "";
+        }
+
+        int oldAnim = animState.curr;
+        animState.curr = handAnim.GetInteger("animIndex");
+        animState.prev = oldAnim;
+
+        bool clickEnded = animState.prev == 1 && animState.curr != 1;
+        bool angryEnded = animState.prev == 2 && animState.curr != 2;
+
+        // game over
+        if (state == 1)
+        {
+            return;
+        }
+
+        if (player.gameOver())
+        {
+            state = 1;
+            onGameEnded();
+            return;
+        }
+
+        if (requestChannelChange)
+        {
+            requestChannelChange = false;
+            tv.nextChannel();
+            channelChangeState = 0;
+        }
+
         UpdateSubtitles();
 
-        if (shouldChangeChannel())
+        bool switchToNextLevel = shouldChangeChannel();
+        bool playerSwitchToNextLevel = player.wantsToChangeChannel();
+
+        if (switchToNextLevel || playerSwitchToNextLevel)
         {
             if (channelChangeState == 0)
                 channelChangeState = 1;
 
             if (channelChangeState == 1)
             {
-                onTextFinished();
+                if (playerSwitchToNextLevel)
+                    onLevelFailed();
+                else
+                    onLevelSuccess();
+
                 channelChangeState = 2;
             }
         }
