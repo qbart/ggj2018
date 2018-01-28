@@ -162,6 +162,10 @@ Prefab:
       propertyPath: m_SortingLayer
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1523194027763684, guid: ec1237b87b555b149b91a130ae536bb9, type: 2}
+      propertyPath: m_Layer
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ec1237b87b555b149b91a130ae536bb9, type: 2}
   m_IsPrefabParent: 0
@@ -196,7 +200,7 @@ Transform:
   - {fileID: 76212448}
   - {fileID: 1051989250}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &41390902
 MonoBehaviour:
@@ -252,7 +256,7 @@ GameObject:
   - component: {fileID: 67402680}
   - component: {fileID: 67402682}
   - component: {fileID: 67402681}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,6 +410,100 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &155890681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 155890686}
+  - component: {fileID: 155890685}
+  - component: {fileID: 155890684}
+  - component: {fileID: 155890683}
+  - component: {fileID: 155890682}
+  m_Layer: 0
+  m_Name: PostProcessCamera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &155890682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155890681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 2a7bad440f5c1984b82a7845ca3e6f9b, type: 2}
+--- !u!81 &155890683
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155890681}
+  m_Enabled: 1
+--- !u!124 &155890684
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155890681}
+  m_Enabled: 1
+--- !u!20 &155890685
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155890681}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 5
+  m_Depth: -0.9
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 16
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &155890686
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155890681}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188581958
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +514,7 @@ GameObject:
   - component: {fileID: 188581959}
   - component: {fileID: 188581961}
   - component: {fileID: 188581960}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +605,7 @@ GameObject:
   - component: {fileID: 310449512}
   - component: {fileID: 310449514}
   - component: {fileID: 310449513}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +696,7 @@ GameObject:
   - component: {fileID: 432398170}
   - component: {fileID: 432398172}
   - component: {fileID: 432398171}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -799,7 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 699572474}
   - component: {fileID: 699572475}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -901,7 +999,7 @@ Transform:
   m_Children:
   - {fileID: 1919975705}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051989249
 GameObject:
@@ -1016,7 +1114,7 @@ Camera:
   m_GameObject: {fileID: 1069746920}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -1029,10 +1127,10 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: -0.8
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294967279
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1167,7 +1265,7 @@ GameObject:
   - component: {fileID: 1619518066}
   - component: {fileID: 1619518068}
   - component: {fileID: 1619518067}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1291,7 @@ Transform:
   - {fileID: 432398170}
   - {fileID: 310449512}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1619518067
 Animator:
@@ -1404,7 +1502,7 @@ GameObject:
   - component: {fileID: 1998725100}
   - component: {fileID: 1998725102}
   - component: {fileID: 1998725101}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1495,7 +1593,7 @@ GameObject:
   - component: {fileID: 2071047744}
   - component: {fileID: 2071047746}
   - component: {fileID: 2071047745}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
