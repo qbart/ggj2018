@@ -59,7 +59,7 @@ public class TextOutline : MonoBehaviour
             other.richText = textMesh.richText;
             other.tabSize = textMesh.tabSize;
             other.lineSpacing = textMesh.lineSpacing;
-            other.offsetZ = textMesh.offsetZ;
+            other.offsetZ = textMesh.offsetZ + 0.1f;
 
             bool doublePixel = resolutionDependant && (Screen.width > doubleResolution || Screen.height > doubleResolution);
             Vector3 pixelOffset = GetOffset(i) * (doublePixel ? 2.0f * pixelSize : pixelSize);
