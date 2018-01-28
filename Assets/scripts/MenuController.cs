@@ -19,7 +19,10 @@ public class MenuController : MonoBehaviour
 	{
 		animator.SetTrigger ("pressed");
 		audioPlayer.PlayOneShot (sndStart);
-		SceneManager.LoadScene("game_scene");
+        if (IntroCamera.PLAY)
+            SceneManager.LoadScene("intro_scene");
+        else
+            SceneManager.LoadScene("game_scene");
 	}
 
 	public void OnPointerEnter()

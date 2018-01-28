@@ -215,6 +215,8 @@ GameObject:
   - component: {fileID: 1052182377}
   - component: {fileID: 1052182376}
   - component: {fileID: 1052182375}
+  - component: {fileID: 1052182379}
+  - component: {fileID: 1052182380}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -244,11 +246,11 @@ Camera:
   m_GameObject: {fileID: 1052182374}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.12941177, g: 0.1254902, b: 0.1254902, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: -0
     y: 0
     width: 1
     height: 1
@@ -285,3 +287,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1052182379
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1052182374}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b905e542fe7c850418c384b2cc0d1793, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &1052182380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1052182374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b9048904d0e9a4f8969486ee5eb1e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
