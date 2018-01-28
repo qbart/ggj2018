@@ -80,7 +80,7 @@ public class Tv : MonoBehaviour
 		{	
 			if (record.Contains(",")) {
 				string[] fields = record.Split(',');
-				mapping[fields[0].Trim()] = fields[1].Trim();
+				mapping[fields[0].Trim().ToLower()] = fields[1].Trim().ToLower();
 			}
 		}
 

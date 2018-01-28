@@ -1,28 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class IntroCamera : MonoBehaviour
 {
-    public static bool PLAY = true;
+    bool PLAY = true;
 
-    //public float fov;
     public float size;
 
     Camera cam;
+    float time;
 
 	void Start()
     {
-        PLAY = false;
         cam = GetComponent<Camera>();
-        //fov = cam.fieldOfView;
         size = cam.orthographicSize;
+
 	}
 	
 	void Update()
     {
-        //cam.fieldOfView = fov;
+        time += Time.deltaTime;
         cam.orthographicSize = size;
+        if (PLAY && time >= 6)
+        {
+            SceneManager.LoadScene("menu_scene");
+            PLAY = false;
+        }
 
     }
 }
