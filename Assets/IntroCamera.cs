@@ -17,16 +17,15 @@ public class IntroCamera : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         size = cam.orthographicSize;
-
 	}
 	
 	void Update()
     {
         time += Time.deltaTime;
         cam.orthographicSize = size;
-        if (PLAY && time >= 6)
+        if (PLAY && time >= 5)
         {
-            SceneManager.LoadScene("menu_scene");
+            SceneManager.LoadSceneAsync("menu_scene");
             PLAY = false;
         }
 
