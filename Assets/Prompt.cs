@@ -170,6 +170,7 @@ public class Prompt : MonoBehaviour
         audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
 
+        gameObject.SetActive(false);
         tvAnim.gameObject.SetActive(true);
         tvAnim.SetTrigger("turnoff");
 		audioPlayer.PlayOneShot(tvOff);
