@@ -217,7 +217,7 @@ public class Prompt : MonoBehaviour
         animState.prev = 0;
         animState.trigger = "";
 
-        player.score = 5;
+        player.score = 50;
         player.resetChannel();
         bounds = buildBounds();
         startPos = bounds.leftMiddle;
