@@ -76,6 +76,8 @@ public class Prompt : MonoBehaviour
     public Animator handAnim;
     public Animator tvAnim;
 	public AudioClip clickSnd;
+	public AudioClip keyDownSnd;
+	public AudioClip tvOff;
 	AudioSource audioPlayer;
 
     Bounds bounds;
@@ -162,6 +164,7 @@ public class Prompt : MonoBehaviour
 
         tvAnim.gameObject.SetActive(true);
         tvAnim.SetTrigger("turnoff");
+		audioPlayer.PlayOneShot(tvOff);
         ledText.gameObject.SetActive(false);
     }
 
@@ -273,6 +276,7 @@ public class Prompt : MonoBehaviour
             if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
             {
                 //Debug.Log("char: " + c);
+				audioPlayer.PlayOneShot(keyDownSnd);
                 Word word = words[currentInvalid];
                 word.addChar(c);
                 text[currentInvalid].text = word.text;

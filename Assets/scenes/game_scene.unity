@@ -767,6 +767,11 @@ Prefab:
       propertyPath: gameover
       value: 
       objectReference: {fileID: 1212937107}
+    - target: {fileID: 114612459589370966, guid: 3e80b721493f586469c65d534427a0c7,
+        type: 2}
+      propertyPath: keyDownSnd
+      value: 
+      objectReference: {fileID: 8300000, guid: 895ca1d6928a44562af4a5dea5b1ac07, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e80b721493f586469c65d534427a0c7, type: 2}
   m_IsPrefabParent: 0
