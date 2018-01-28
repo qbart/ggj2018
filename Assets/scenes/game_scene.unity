@@ -295,14 +295,14 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 96dddab58dbd41948a85422396c6308d, type: 3}
   - {fileID: 4900000, guid: 6107eabc732f2423b8e8e563d1f4385c, type: 3}
   speeds:
-  - 2
-  - 2
-  - 2
-  - 2
-  - 2
-  - 2
-  - 2
-  - 2
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
+  - 2.5
   media: {fileID: 0}
 --- !u!82 &41390903
 AudioSource:
