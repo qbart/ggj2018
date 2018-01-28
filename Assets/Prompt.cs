@@ -78,6 +78,8 @@ public class Prompt : MonoBehaviour
 	public AudioClip clickSnd;
 	public AudioClip keyDownSnd;
 	public AudioClip tvOff;
+	public AudioClip failSnd;
+	public AudioClip overSnd;
 	AudioSource audioPlayer;
 
     Bounds bounds;
@@ -122,6 +124,9 @@ public class Prompt : MonoBehaviour
         Debug.Log("wrong answer!");
         player.failureWord();
         animState.trigger = "angry";
+		if (!player.gameOver()) {
+			audioPlayer.PlayOneShot (failSnd);
+		}
     }
 
     void onWordMiss()
@@ -129,6 +134,9 @@ public class Prompt : MonoBehaviour
         Debug.Log("missed answer");
         player.failureWord();
         animState.trigger = "angry";
+		if (!player.gameOver()) {
+			audioPlayer.PlayOneShot (failSnd);
+		}
     }
 
     void onLevelFailed()
@@ -158,7 +166,7 @@ public class Prompt : MonoBehaviour
     void onGameEnded()
     {
         Debug.Log("game ended!");
-
+		audioPlayer.PlayOneShot(overSnd);
         audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
 
