@@ -12,9 +12,12 @@ public class Tv : MonoBehaviour
 
     ChannelParams[] channels;
     int currentChannel = -1;
+    AudioSource media;
+
 
     void Start()
     {
+        media = GetComponent<AudioSource>();
         channels = new ChannelParams[files.Length];
         for (int i = 0; i < channels.Length; ++i)
         {
@@ -47,16 +50,20 @@ public class Tv : MonoBehaviour
 
             currentChannel = list[Random.Range(0, list.Count)];
         }
-
         changeChannel(currentChannel);
     }
 
     void changeChannel(int index)
     {
+        media.Stop();
+
         for (int i = 0; i < visualChannels.Length; ++i)
         {
             if (i == index)
+            {
                 visualChannels[i].SetActive(true);
+                media.PlayOneShot(visualChannels[i].GetComponent<VisualChannel>().clip);
+            }
             else
                 visualChannels[i].SetActive(false);
         }
