@@ -176,7 +176,7 @@ public class Prompt : MonoBehaviour
 		audioPlayer.PlayOneShot(tvOff);
         ledText.gameObject.SetActive(false);
 
-        foreach (BlockText bt in GetComponentsInChildren<BlockText>())
+        foreach (Transform bt in GetComponentsInChildren<Transform>())
         {
             bt.gameObject.SetActive(false);
         }

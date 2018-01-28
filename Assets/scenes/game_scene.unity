@@ -1015,7 +1015,7 @@ GameObject:
   - component: {fileID: 892698057}
   - component: {fileID: 892698059}
   - component: {fileID: 892698058}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: channel7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
