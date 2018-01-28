@@ -771,7 +771,12 @@ Prefab:
         type: 2}
       propertyPath: keyDownSnd
       value: 
-      objectReference: {fileID: 8300000, guid: 895ca1d6928a44562af4a5dea5b1ac07, type: 3}
+      objectReference: {fileID: 8300000, guid: 4e993c49a90bf4d1382a5db12cbd115b, type: 3}
+    - target: {fileID: 114612459589370966, guid: 3e80b721493f586469c65d534427a0c7,
+        type: 2}
+      propertyPath: tvOff
+      value: 
+      objectReference: {fileID: 8300000, guid: 2dc8b52b12f7147faa66ba4e3e2991ea, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e80b721493f586469c65d534427a0c7, type: 2}
   m_IsPrefabParent: 0
