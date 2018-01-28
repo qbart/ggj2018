@@ -11,7 +11,7 @@ public struct Frame
     public float y;
     public float width;
     public float height;
-    public float caretX;
+    public float markerX;
 }
 
 struct Bounds
@@ -19,7 +19,7 @@ struct Bounds
     public Vector3[] points;
     public Vector3 leftMiddle;
     public Vector3 rightMiddle;
-    public Vector3 caret;
+    public Vector3 marker;
 }
 
 struct Player
@@ -71,6 +71,7 @@ public class Prompt : MonoBehaviour
 {
     public Frame rect;
     public GameObject textPrefab;
+    public GameObject marker;
     public Tv tv;
     public TextMesh ledText;
     public Animator handAnim;
@@ -106,7 +107,7 @@ public class Prompt : MonoBehaviour
 
     AnimState animState;
 
-    const int POOL_SIZE = 10;
+    const int POOL_SIZE = 20;
 
     public void changeChannel(Channel channel)
     {
@@ -170,11 +171,15 @@ public class Prompt : MonoBehaviour
         audioPlayer.PlayOneShot(clickSnd);
         animState.trigger = "click";
 
-        gameObject.SetActive(false);
         tvAnim.gameObject.SetActive(true);
         tvAnim.SetTrigger("turnoff");
 		audioPlayer.PlayOneShot(tvOff);
         ledText.gameObject.SetActive(false);
+
+        foreach (BlockText bt in GetComponentsInChildren<BlockText>())
+        {
+            bt.gameObject.SetActive(false);
+        }
     }
 
     void onWordReachedMarker(Word word)
@@ -196,6 +201,9 @@ public class Prompt : MonoBehaviour
     {
 		audioPlayer = GetComponent<AudioSource>();
         tvAnim.gameObject.SetActive(false);
+        Vector3 pos = marker.transform.position;
+        pos.x = bounds.marker.x;
+        marker.transform.position = pos;
     }
 
     void Awake()
@@ -366,7 +374,7 @@ public class Prompt : MonoBehaviour
     {
         foreach (int index in getVisibleIndices())
         {
-            if (words[index].check && obj[index].transform.position.x < bounds.caret.x && words[index].invalid)
+            if (words[index].check && obj[index].transform.position.x < bounds.marker.x && words[index].invalid)
             {
                 words[index].check = false;
                 if (!words[index].skip)
@@ -492,7 +500,7 @@ public class Prompt : MonoBehaviour
 
         foreach (int index in getVisibleIndices())
         {
-            if (obj[index].transform.position.x >= bounds.caret.x && obj[index].transform.position.x <= bounds.rightMiddle.x)
+            if (obj[index].transform.position.x >= bounds.marker.x && obj[index].transform.position.x <= bounds.rightMiddle.x)
                 if (!words[index].skip)
                     indices.Add(index);
         }
@@ -512,7 +520,7 @@ public class Prompt : MonoBehaviour
         };
         b.leftMiddle = (b.points[0] + b.points[3]) / 2;
         b.rightMiddle = (b.points[1] + b.points[2]) / 2;
-        b.caret = Vector3.Lerp(b.points[0], b.points[1], rect.caretX);
+        b.marker = Vector3.Lerp(b.points[0], b.points[1], rect.markerX);
 
         return b;
     }
@@ -528,6 +536,6 @@ public class Prompt : MonoBehaviour
         Gizmos.DrawCube(b.leftMiddle, POINT_SIZE);
         Gizmos.DrawCube(b.rightMiddle, POINT_SIZE);
 
-        Gizmos.DrawCube(b.caret, POINT_SIZE);
+        Gizmos.DrawCube(b.marker, POINT_SIZE);
     }
 }
